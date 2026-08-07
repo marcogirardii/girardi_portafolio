@@ -493,3 +493,30 @@ footer a:hover{ color: var(--green-deep); }
 .work-grid .card:first-child .card-media {
   padding: 44px;
 }
+
+/*----------Sacar al terminar el portafolio-----------*/
+
+.coming-soon{
+  min-height: calc(100vh - 76px - 90px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.coming-soon-inner{
+  max-width: 52ch;
+}
+.coming-soon h1{
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(36px, 6vw, 64px);
+  margin: 18px 0 20px;
+  letter-spacing: -0.01em;
+}
+.coming-soon p{
+  font-size: clamp(16px, 1.6vw, 19px);
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/*------------------------------------------------------*/
