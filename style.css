@@ -443,20 +443,21 @@ footer a:hover{ color: var(--green-deep); }
 .card-media {
   position: relative;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   padding: 24px;
+  text-align: center;
 }
 
 .card-media img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  width: auto !important;
+  height: auto !important;
   object-fit: contain;
   display: block;
-  margin: 0 auto;
+  margin: 0 auto !important;
   transition: transform 0.4s ease;
 }
 
