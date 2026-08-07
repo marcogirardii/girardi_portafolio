@@ -178,6 +178,11 @@ img{ max-width: 100%; display: block; }
   position: relative;
   padding: clamp(64px, 11vw, 128px) 0 clamp(48px, 8vw, 96px);
   overflow: hidden;
+  background-image:
+    linear-gradient(180deg, rgba(15,31,20,0.75), rgba(15,31,20,0.55)),
+    url('images/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
 }
 .hero::before{
   content: '';
@@ -187,13 +192,14 @@ img{ max-width: 100%; display: block; }
     to bottom,
     transparent 0,
     transparent 38px,
-    var(--line) 38px,
-    var(--line) 39px
+    rgba(255,255,255,0.08) 38px,
+    rgba(255,255,255,0.08) 39px
   );
   mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
   pointer-events: none;
 }
 .hero-inner{ position: relative; }
+
 .hero h1{
   font-family: var(--display);
   font-weight: 600;
@@ -201,16 +207,30 @@ img{ max-width: 100%; display: block; }
   line-height: 0.98;
   margin: 18px 0 22px;
   letter-spacing: -0.01em;
+  color: #fff;
 }
 .hero h1 em{
   font-style: italic;
-  color: var(--green);
+  color: #A9E6B4;
 }
 .hero p.lede{
   max-width: 46ch;
   font-size: clamp(17px, 1.6vw, 20px);
-  color: var(--ink-soft);
+  color: rgba(255,255,255,0.82);
   margin: 0 0 36px;
+}
+.hero .eyebrow{
+  color: #A9E6B4;
+}
+.hero .eyebrow::before{
+  background: #A9E6B4;
+}
+.hero .btn-ghost{
+  border-color: rgba(255,255,255,0.6);
+  color: #fff;
+}
+.hero .btn-ghost:hover{
+  border-color: #fff;
 }
 .hero-actions{
   display: flex;
