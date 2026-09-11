@@ -590,9 +590,9 @@ footer a:hover{ color: var(--green-deep); }
   overflow: hidden;
   container-type: inline-size;
   width: 100%;
-  height: 560px; /* ajustá la altura a gusto */
+  height: 560px;
   border-radius: 12px;
-  background: #0a0a0a; /* fondo de respaldo mientras cargan las imágenes */
+  background: var(--sage); /* antes: #0a0a0a */
 }
 
 .ish-stage {
@@ -662,7 +662,7 @@ footer a:hover{ color: var(--green-deep); }
   font-family: 'Fraunces', serif;
   font-size: 2.75rem;
   font-weight: 500;
-  color: #fff;
+  color: var(--ink); /* antes: #fff — usa tu variable de negro/tinta oscura */
   line-height: 1.1;
 }
 
