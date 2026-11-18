@@ -1,0 +1,575 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Star Wars III — Oral</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&family=Public+Sans:wght@400;600;700&display=swap">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; background: #050608; overflow: hidden; }
+  body { font-family: 'Public Sans', Arial, sans-serif; }
+
+  /* Escenario 1920x1080 escalado a la ventana */
+  .stage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 1920px;
+    height: 1080px;
+    transform-origin: center center;
+    overflow: hidden;
+    background: #0B0D12;
+  }
+
+  .slide {
+    --saber: #4DA3FF;
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 48px;
+    padding: 128px;
+    background: #0B0D12;
+    color: #F3EFE2;
+    overflow: hidden;
+  }
+  .slide.active, .slide.leaving { display: flex; }
+  .slide.active { z-index: 2; }
+  .slide.leaving { z-index: 1; }
+  .slide.light { background: #F2EEE3; color: #15171D; }
+  .slide.accent { background: #FFE81F; color: #15171D; }
+  .slide.cover { justify-content: center; gap: 28px; }
+  .slide > *:not(.stars) { position: relative; }
+
+  .sith { --saber: #FF3B3B; }
+  .windu { --saber: #B25CFF; }
+
+  /* Fondo de estrellas */
+  .stars { position: absolute; inset: 0; width: 1920px; height: 1080px; pointer-events: none; }
+  .stars circle { fill: #F3EFE2; }
+  .stars .tw { animation: twinkle var(--d, 4s) ease-in-out infinite alternate; animation-delay: var(--dl, 0s); }
+  @keyframes twinkle { from { opacity: .15; } to { opacity: .9; } }
+
+  .eyebrow {
+    font-family: 'Oswald', Arial, sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #FFE81F;
+  }
+  .light .eyebrow { color: #1D5FA6; }
+  .accent .eyebrow { color: #15171D; }
+
+  h1.title {
+    font-family: 'Oswald', Arial, sans-serif;
+    font-size: 180px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #FFE81F;
+    text-shadow: 0 0 40px rgba(255, 232, 31, .25);
+  }
+  .subtitle {
+    font-family: 'Oswald', Arial, sans-serif;
+    font-size: 72px;
+    line-height: 1.1;
+    font-weight: 400;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+  }
+  h2 {
+    font-family: 'Oswald', Arial, sans-serif;
+    font-size: 76px;
+    line-height: 1.1;
+    font-weight: 600;
+  }
+  /* Sable de luz debajo de cada título */
+  h2::after {
+    content: '';
+    display: block;
+    width: 380px;
+    height: 6px;
+    margin-top: 24px;
+    border-radius: 3px;
+    background: #F4F8FF;
+    box-shadow: 0 0 6px 2px var(--saber), 0 0 18px 6px var(--saber);
+  }
+  .light h2::after { background: var(--saber); box-shadow: 0 0 10px 2px var(--saber); }
+  .accent h2::after { background: #15171D; box-shadow: none; }
+
+  h3 {
+    font-family: 'Oswald', Arial, sans-serif;
+    font-size: 40px;
+    line-height: 1.15;
+    font-weight: 600;
+  }
+  .lead { font-size: 38px; line-height: 1.4; color: #C8CDD8; max-width: 1400px; }
+  .accent .lead { color: #15171D; }
+  .text { font-size: 34px; line-height: 1.45; color: #D5D9E2; }
+  .group { font-size: 28px; line-height: 1.4; color: #8FA3BF; }
+
+  /* Qué pasa en la escena */
+  .scene { display: grid; grid-template-columns: 1.4fr 1fr; gap: 72px; align-items: start; }
+  .story { display: flex; flex-direction: column; gap: 32px; }
+  .ficha {
+    background: #151923;
+    border-left: 6px solid var(--saber);
+    border-radius: 12px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .ficha .label {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #8FA3BF;
+  }
+  .ficha .value { font-size: 30px; line-height: 1.35; color: #F3EFE2; }
+  .ficha .watch { font-size: 30px; font-weight: 700; margin-top: 8px; }
+  .watch a { color: #FFE81F; text-decoration: none; border-bottom: 2px solid rgba(255, 232, 31, .5); }
+  .watch a:hover { border-bottom-color: #FFE81F; }
+
+  /* Relación con la materia */
+  .cards { display: grid; gap: 28px; }
+  .cards.two { grid-template-columns: 1fr 1fr; }
+  .cards.three { grid-template-columns: 1fr 1fr 1fr; }
+  .card {
+    background: #FBF9F3;
+    border-top: 6px solid var(--saber);
+    border-radius: 12px;
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 2px 0 rgba(21, 23, 29, .04);
+  }
+  .card .tema {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #1D5FA6;
+  }
+  .card h3 { color: #15171D; }
+  .card .exp { font-size: 30px; line-height: 1.4; color: #3B4050; }
+
+  /* Cierre */
+  .chain { display: flex; align-items: center; gap: 28px; margin-top: 24px; }
+  .paso {
+    background: #15171D;
+    color: #FFE81F;
+    font-family: 'Oswald', Arial, sans-serif;
+    font-size: 44px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 24px 40px;
+    border-radius: 12px;
+  }
+  .arrow { width: 64px; height: 32px; flex: none; }
+
+  /* ===== Animaciones ===== */
+
+  /* Transición entre diapositivas: barrido lateral, como en las películas */
+  .slide.wipe-next { animation: wipeNext 650ms cubic-bezier(.65, 0, .35, 1) both; }
+  .slide.wipe-prev { animation: wipePrev 650ms cubic-bezier(.65, 0, .35, 1) both; }
+  @keyframes wipeNext { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes wipePrev { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+  /* El título de la portada se aleja hacia las estrellas */
+  .slide.active.cover .title { animation: logo 1800ms cubic-bezier(.2, .7, .2, 1) both; }
+  .slide.active.cover .subtitle { animation: fadeUp 900ms ease-out 900ms both; }
+  .slide.active.cover .lead,
+  .slide.active.cover .group { animation: fadeUp 900ms ease-out 1300ms both; }
+  .slide.active.cover .eyebrow { animation: fadeUp 900ms ease-out 400ms both; }
+  @keyframes logo {
+    from { opacity: 0; transform: scale(1.6); letter-spacing: 30px; }
+    to { opacity: 1; transform: scale(1); letter-spacing: 6px; }
+  }
+
+  /* El sable se enciende */
+  .slide.active h2::after { animation: ignite 700ms cubic-bezier(.3, .9, .3, 1) 350ms both, hum 2.4s ease-in-out 1.1s infinite alternate; }
+  @keyframes ignite { from { width: 0; opacity: .6; } to { width: 380px; opacity: 1; } }
+  @keyframes hum {
+    from { box-shadow: 0 0 6px 2px var(--saber), 0 0 18px 6px var(--saber); }
+    to { box-shadow: 0 0 8px 3px var(--saber), 0 0 26px 9px var(--saber); }
+  }
+  .light .slide.active h2::after, .slide.active.light h2::after,
+  .slide.active.accent h2::after { animation: ignite 700ms cubic-bezier(.3, .9, .3, 1) 350ms both; }
+
+  .slide.active .card,
+  .slide.active .ficha,
+  .slide.active .text,
+  .slide.active .paso,
+  .slide.active .arrow {
+    animation: fadeUp 600ms ease-out both;
+    animation-delay: calc(450ms + var(--i, 1) * 130ms);
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .slide *, .slide, .slide *::after { animation: none !important; }
+  }
+
+  /* Controles */
+  .controls {
+    position: fixed;
+    right: 20px;
+    bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 10;
+    opacity: .3;
+    transition: opacity .2s;
+  }
+  .controls:hover, .controls:focus-within { opacity: 1; }
+  .controls button {
+    background: #1A1F2B;
+    color: #F3EFE2;
+    border: 1px solid #2E3546;
+    border-radius: 8px;
+    min-width: 40px;
+    height: 36px;
+    padding: 0 10px;
+    font: inherit;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .controls button:hover { background: #262D3D; }
+  .counter { color: #C8CDD8; font-size: 15px; min-width: 56px; text-align: center; }
+
+  .progress {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 4px;
+    background: #FFE81F;
+    box-shadow: 0 0 10px rgba(255, 232, 31, .6);
+    transition: width .4s ease;
+    z-index: 10;
+  }
+
+  /* Ajustes de lectura de las escenas revisadas; conservan el diseño y las animaciones. */
+  .slide.reviewed { gap: 32px; padding: 112px 128px; }
+  .reviewed .story { gap: 24px; }
+  .reviewed .text { font-size: 32px; line-height: 1.4; }
+  .reviewed .cards { gap: 24px; }
+  .reviewed .card { padding: 28px; gap: 12px; }
+  .reviewed .card .tema { font-size: 20px; line-height: 1.25; letter-spacing: 1.5px; }
+  .reviewed .card h3 { font-size: 38px; line-height: 1.4; }
+  .reviewed .card .exp { font-size: 28px; line-height: 1.35; }
+  .reviewed .ficha .value, .reviewed .ficha .watch { font-size: 28px; }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+
+  <!-- 1. Portada -->
+  <section class="slide cover">
+    <p class="eyebrow">Liderazgo y Negociación</p>
+    <h1 class="title">Star Wars III</h1>
+    <p class="subtitle">La venganza de los Sith</p>
+    <p class="lead">Tres escenas para analizar liderazgo, poder y conflicto</p>
+    <p class="group">Grupo 5</p>
+  </section>
+
+  <!-- 2. Resumen -->
+  <section class="slide">
+    <p class="eyebrow">Contexto</p>
+    <h2>De qué trata la película</h2>
+    <div class="scene">
+      <div class="story">
+        <p class="text" style="--i:1">La República está en guerra. Su Canciller, Palpatine, es en secreto un Sith que busca el poder absoluto.</p>
+        <p class="text" style="--i:2">Anakin, un Jedi joven, teme que su esposa Padmé muera. Palpatine usa ese miedo para atraerlo.</p>
+        <p class="text" style="--i:3">Anakin se pasa al lado oscuro y Palpatine elimina a los Jedi.</p>
+      </div>
+      <div class="ficha" style="--i:4">
+        <p class="label">Jedi</p>
+        <p class="value">Defienden la paz y la República</p>
+        <p class="label">Sith</p>
+        <p class="value">Buscan el poder absoluto</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Escena 1 · Qué pasa -->
+  <section class="slide sith reviewed">
+    <p class="eyebrow">Escena 1 · Qué pasa</p>
+    <h2>La ópera: la leyenda de Darth Plagueis</h2>
+    <div class="scene">
+      <div class="story">
+        <p class="text" style="--i:1">Anakin teme perder a Padmé y está frustrado con el Consejo Jedi. Palpatine le relata la historia de un Sith que podía impedir la muerte de sus seres queridos.</p>
+        <p class="text" style="--i:2">Anakin pregunta si puede aprender ese poder. Palpatine responde que no de un Jedi.</p>
+        <p class="text" style="--i:3">El relato despierta su interés. Todavía no acuerdan lealtad a cambio de salvar a Padmé.</p>
+      </div>
+      <div class="ficha" style="--i:4">
+        <p class="label">Personajes</p>
+        <p class="value">Palpatine y Anakin</p>
+        <p class="label">Momento de la película</p>
+        <p class="value">Antes de que Anakin descubra que Palpatine es un Sith</p>
+        <p class="watch"><a href="https://www.starwars.com/video/the-legend-of-darth-plagueis" target="_blank" rel="noopener noreferrer">Ver escena ↗</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Escena 1 · Relación con la materia -->
+  <section class="slide light sith reviewed">
+    <p class="eyebrow">Escena 1 · Relación con la materia</p>
+    <h2>Del miedo a la influencia</h2>
+    <div class="cards two">
+      <div class="card" style="--i:1">
+        <p class="tema">Poder · Fuente de influencia</p>
+        <h3>Poder por información</h3>
+        <p class="exp">Palpatine presenta un saber que Anakin valora: impedir la muerte. Se vuelve una fuente de información relevante para él.</p>
+      </div>
+      <div class="card" style="--i:2">
+        <p class="tema">Poder · Percepción del seguidor</p>
+        <h3>Poder percibido</h3>
+        <p class="exp">Anakin empieza a verlo como una vía hacia ese conocimiento. El relato genera una expectativa; no demuestra que Palpatine pueda salvar a Padmé.</p>
+      </div>
+      <div class="card" style="--i:3">
+        <p class="tema">Kofman · Actitudes inconscientes</p>
+        <h3>Comunicación manipuladora</h3>
+        <p class="exp">Palpatine revela información selectivamente y oculta su identidad y su propósito de captar a Anakin. Influye sin transparentar sus intenciones.</p>
+      </div>
+      <div class="card" style="--i:4">
+        <p class="tema">Ury · Contraste con sus principios</p>
+        <h3>Intereses sin beneficio mutuo</h3>
+        <p class="exp">Aprender ese poder es un medio; proteger a Padmé es el interés. No se transparentan intereses ni se buscan opciones conjuntas. Aún no hay acuerdo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Escena 2 · Qué pasa -->
+  <section class="slide windu reviewed">
+    <p class="eyebrow">Escena 2 · Qué pasa</p>
+    <h2>Windu y Anakin ante Palpatine</h2>
+    <div class="scene">
+      <div class="story">
+        <p class="text" style="--i:1">Windu intenta arrestar a Palpatine. Tras el combate y el ataque con rayos, decide matarlo.</p>
+        <p class="text" style="--i:2">Anakin pide un juicio. Windu sostiene que Palpatine controla el Senado y los tribunales y que dejarlo vivo es demasiado peligroso.</p>
+        <p class="text" style="--i:3">Anakin afirma que lo necesita y le corta la mano a Windu. Palpatine mata a Windu; después, Anakin se somete a Sidious con la esperanza de salvar a Padmé.</p>
+      </div>
+      <div class="ficha" style="--i:4">
+        <p class="label">Personajes</p>
+        <p class="value">Mace Windu, Palpatine y Anakin</p>
+        <p class="watch"><a href="https://www.starwars.com/video/unlimited-power" target="_blank" rel="noopener noreferrer">Ver fragmento oficial ↗</a></p>
+        <p class="watch"><a href="https://clip.cafe/star-wars-episode-iii-revenge-of-the-sith-2005/i-am-going-end-once-and-all-s1/" target="_blank" rel="noopener noreferrer">Diálogo sobre el juicio ↗</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Escena 2 · Conflicto -->
+  <section class="slide light windu reviewed">
+    <p class="eyebrow">Escena 2 · Relación con la materia</p>
+    <h2>Motivación y escalada del conflicto</h2>
+    <div class="cards two">
+      <div class="card" style="--i:1">
+        <p class="tema">Motivación</p>
+        <h3>Necesidad, tensión y acción</h3>
+        <p class="exp">La necesidad de proteger a Padmé genera tensión y búsqueda. Anakin cree que Palpatine puede ayudarlo y actúa para mantenerlo vivo. La escena muestra la acción, no la satisfacción de la necesidad.</p>
+      </div>
+      <div class="card" style="--i:2">
+        <p class="tema">Thomas-Kilmann</p>
+        <h3>Estilo forzar</h3>
+        <p class="exp">Windu mantiene su decisión pese a la oposición de Anakin. Anakin se impone al herirlo. Ambos muestran alta asertividad y baja cooperación. La urgencia explica el estilo, pero no garantiza su eficacia.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Escena 2 · Negociación -->
+  <section class="slide light windu reviewed">
+    <p class="eyebrow">Escena 2 · Relación con la materia</p>
+    <h2>Posiciones, intereses y criterios</h2>
+    <div class="cards two">
+      <div class="card" style="--i:1">
+        <p class="tema">Covey · Hábito 4</p>
+        <h3>Gano/pierdes</h3>
+        <p class="exp">Palpatine elimina a Windu y somete a Anakin. Usa su miedo para lograr sus propios fines. Que Anakin espere salvar a Padmé no demuestra un beneficio mutuo.</p>
+      </div>
+      <div class="card" style="--i:2">
+        <p class="tema">Ury · Principio 3</p>
+        <h3>Intereses poco explorados</h3>
+        <p class="exp">Windu quiere proteger a la República y sí explica su motivo. Anakin expresa que necesita a Palpatine, pero no revela el vínculo con Padmé. No exploran soluciones conjuntas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Escena 3 · Qué pasa -->
+  <section class="slide sith">
+    <p class="eyebrow">Escena 3 · Qué pasa</p>
+    <h2>La Orden 66</h2>
+    <div class="scene">
+      <div class="story">
+        <p class="text" style="--i:1">Palpatine le da una orden al comandante Cody: “Ejecuten la Orden 66”.</p>
+        <p class="text" style="--i:2">Sin preguntar nada, los clones atacan a los Jedi en toda la galaxia.</p>
+      </div>
+      <div class="ficha" style="--i:3">
+        <p class="label">Personajes</p>
+        <p class="value">Palpatine y el comandante Cody</p>
+        <p class="watch"><a href="https://www.starwars.com/video/cody-receives-order-66" target="_blank" rel="noopener noreferrer">Ver escena ↗</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Escena 3 · Relación con la materia -->
+  <section class="slide light sith">
+    <p class="eyebrow">Escena 3 · Relación con la materia</p>
+    <h2>Palpatine ordena y se obedece</h2>
+    <div class="cards three">
+      <div class="card" style="--i:1">
+        <p class="tema">Goleman</p>
+        <h3>Estilo coercitivo</h3>
+        <p class="exp">Instrucción directa y obediencia inmediata, sin opinar.</p>
+      </div>
+      <div class="card" style="--i:2">
+        <p class="tema">Poder</p>
+        <h3>Poder coercitivo</h3>
+        <p class="exp">Desobedecer no es una opción para los clones.</p>
+      </div>
+      <div class="card" style="--i:3">
+        <p class="tema">Hersey y Blanchard</p>
+        <h3>S1: Decir</h3>
+        <p class="exp">El líder decide y el seguidor solo ejecuta.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Conclusión -->
+  <section class="slide accent">
+    <p class="eyebrow">Conclusión</p>
+    <h2>Del convencer al imponer</h2>
+    <p class="lead">Palpatine primero seduce, después aprovecha el conflicto y al final da órdenes que nadie discute.</p>
+    <div class="chain">
+      <p class="paso" style="--i:1">Manipulación</p>
+      <svg class="arrow" style="--i:2" viewBox="0 0 64 32" aria-hidden="true"><path d="M0 10h38V0l26 16-26 16V22H0z" fill="#15171D"/></svg>
+      <p class="paso" style="--i:3">Conflicto</p>
+      <svg class="arrow" style="--i:4" viewBox="0 0 64 32" aria-hidden="true"><path d="M0 10h38V0l26 16-26 16V22H0z" fill="#15171D"/></svg>
+      <p class="paso" style="--i:5">Coerción</p>
+    </div>
+  </section>
+
+</div>
+
+<div class="progress" id="progress"></div>
+<nav class="controls" aria-label="Controles de la presentación">
+  <button id="prev" aria-label="Diapositiva anterior">←</button>
+  <span class="counter" id="counter">1 / 10</span>
+  <button id="next" aria-label="Diapositiva siguiente">→</button>
+  <button id="fsBtn" aria-label="Pantalla completa" title="Pantalla completa (F)">⛶</button>
+</nav>
+
+<script>
+  const stage = document.getElementById('stage');
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  let current = -1;
+
+  // Estrellas en las diapositivas oscuras (algunas titilan)
+  let seed = 7;
+  const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  slides.filter(s => !s.classList.contains('light') && !s.classList.contains('accent')).forEach(s => {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'stars');
+    svg.setAttribute('viewBox', '0 0 1920 1080');
+    svg.setAttribute('aria-hidden', 'true');
+    const count = s.classList.contains('cover') ? 110 : 55;
+    for (let k = 0; k < count; k++) {
+      const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      c.setAttribute('cx', (rand() * 1920).toFixed(1));
+      c.setAttribute('cy', (rand() * 1080).toFixed(1));
+      c.setAttribute('r', (0.6 + rand() * 1.6).toFixed(2));
+      c.setAttribute('opacity', (0.2 + rand() * 0.6).toFixed(2));
+      if (rand() < 0.35) {
+        c.setAttribute('class', 'tw');
+        c.style.setProperty('--d', (2.5 + rand() * 4).toFixed(2) + 's');
+        c.style.setProperty('--dl', (-rand() * 6).toFixed(2) + 's');
+      }
+      svg.appendChild(c);
+    }
+    s.prepend(svg);
+  });
+
+  function fit() {
+    const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  }
+
+  function show(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    if (n === current) return;
+    const forward = n > current;
+    const prev = slides[current];
+    slides.forEach(s => s.classList.remove('active', 'leaving', 'wipe-next', 'wipe-prev'));
+    if (prev) prev.classList.add('leaving');
+    const next = slides[n];
+    next.classList.add('active');
+    if (prev) next.classList.add(forward ? 'wipe-next' : 'wipe-prev');
+    current = n;
+    counter.textContent = (current + 1) + ' / ' + slides.length;
+    progress.style.width = ((current + 1) / slides.length * 100) + '%';
+    history.replaceState(null, '', '#' + (current + 1));
+  }
+
+  stage.addEventListener('animationend', (e) => {
+    if (e.animationName === 'wipeNext' || e.animationName === 'wipePrev') {
+      slides.forEach(s => s.classList.remove('leaving'));
+      e.target.classList.remove('wipe-next', 'wipe-prev');
+    }
+  });
+
+  function toggleFullscreen() {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen().catch(() => {});
+  }
+
+  document.getElementById('prev').addEventListener('click', () => show(current - 1));
+  document.getElementById('next').addEventListener('click', () => show(current + 1));
+  document.getElementById('fsBtn').addEventListener('click', toggleFullscreen);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.target.closest('button') && (e.key === ' ' || e.key === 'Enter')) return;
+    switch (e.key) {
+      case 'ArrowRight': case 'PageDown': case ' ': e.preventDefault(); show(current + 1); break;
+      case 'ArrowLeft': case 'PageUp': e.preventDefault(); show(current - 1); break;
+      case 'Home': show(0); break;
+      case 'End': show(slides.length - 1); break;
+      case 'f': case 'F': toggleFullscreen(); break;
+    }
+  });
+
+  let touchX = null;
+  document.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
+    touchX = null;
+  });
+
+  window.addEventListener('hashchange', () => {
+    const n = parseInt(location.hash.slice(1), 10);
+    if (Number.isFinite(n)) show(n - 1);
+  });
+  window.addEventListener('resize', fit);
+  fit();
+  const start = parseInt(location.hash.slice(1), 10);
+  show(Number.isFinite(start) ? start - 1 : 0);
+</script>
+</body>
+</html>
+
+</body></html>
